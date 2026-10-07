@@ -1,0 +1,291 @@
+/**
+ * Base layer: reset, typography, native control styling and layout utilities.
+ */
+@layer reset, typography, controls, utilities;
+
+/* Reset */
+@layer reset {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--color-canvas);
+    color: var(--color-text);
+  }
+
+  body {
+    padding: var(--space-7);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-base);
+  }
+}
+
+/* Typography */
+@layer typography {
+  :where(button, input, select, textarea) {
+    font: inherit;
+    letter-spacing: var(--tracking-base);
+    color: inherit;
+  }
+
+  :where(h1, h2, strong) {
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+
+    > span {
+      display: flex;
+      align-items: end;
+      min-block-size: calc(2 * var(--font-size-2xs) * var(--line-height-base));
+      color: var(--color-muted);
+      font-size: var(--font-size-2xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+  }
+
+  :where([data-text="eyebrow"]) {
+    margin: 0 0 var(--space-2);
+    color: var(--color-accent-strong);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  :where([data-text="subcopy"]) {
+    margin: 0;
+    max-width: 80ch;
+    color: var(--color-muted);
+  }
+}
+
+/* Native controls */
+@layer controls {
+  :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+    --control-shadow: var(--shadow-soft);
+    inline-size: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-width-1) solid var(--color-border);
+    border-radius: var(--radius-control);
+    outline: var(--outline-width) solid transparent;
+    outline-offset: var(--outline-offset);
+    background-color: var(--color-field);
+    color: var(--color-text);
+    box-shadow: var(--control-shadow);
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease,
+      outline-color 160ms ease;
+
+    &:hover {
+      background-color: var(--color-field-hover);
+      border-color: var(--color-border-strong);
+    }
+  }
+
+  :where(input:not([type="checkbox"]):not([type="radio"]), select) {
+    block-size: var(--control-height);
+  }
+
+  select {
+    --select-chevron-color: currentColor;
+    appearance: none;
+    padding-inline-end: calc(var(--space-6) + 1.25rem);
+    background-image:
+      linear-gradient(45deg, transparent 42%, var(--select-chevron-color) 42%, var(--select-chevron-color) 58%, transparent 58%),
+      linear-gradient(-45deg, transparent 42%, var(--select-chevron-color) 42%, var(--select-chevron-color) 58%, transparent 58%);
+    background-position:
+      calc(100% - 1.05rem) 50%,
+      calc(100% - 0.7rem) 50%;
+    background-repeat: no-repeat;
+    background-size: 0.55rem 0.55rem;
+  }
+
+  textarea {
+    min-block-size: 7rem;
+    resize: vertical;
+  }
+
+  button {
+    --control-shadow: var(--shadow-soft);
+    --button-background: var(--color-accent-surface);
+    --button-border: var(--color-accent-strong);
+    --button-hover-background: var(--color-surface-raised);
+    --button-hover-border: var(--color-accent);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-block-size: var(--control-height);
+    padding: var(--space-3) var(--space-5);
+    border: var(--border-width-1) solid var(--button-border);
+    border-radius: var(--radius-control);
+    outline: var(--outline-width) solid transparent;
+    outline-offset: var(--outline-offset);
+    background-color: var(--button-background);
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+    box-shadow: var(--control-shadow);
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease,
+      outline-color 160ms ease;
+
+    &:hover {
+      background-color: var(--button-hover-background);
+      border-color: var(--button-hover-border);
+    }
+
+    &[data-variant="secondary"] {
+      --button-background: var(--color-surface-raised);
+      --button-border: var(--color-border-strong);
+      --button-hover-background: var(--color-surface-muted);
+      --button-hover-border: var(--color-border-strong);
+    }
+
+    &[data-variant="warning"] {
+      --control-shadow: var(--shadow-medium);
+      --button-background: color-mix(in srgb, var(--color-warning) 52%, var(--color-surface) 48%);
+      --button-border: color-mix(in srgb, var(--color-warning) 84%, var(--color-text) 16%);
+      --button-hover-background: color-mix(in srgb, var(--color-warning) 68%, var(--color-surface) 32%);
+      --button-hover-border: color-mix(in srgb, var(--color-warning) 92%, var(--color-text) 8%);
+    }
+
+    &[data-variant="danger"] {
+      --control-shadow: var(--shadow-medium);
+      --button-background: color-mix(in srgb, var(--color-danger) 52%, var(--color-surface) 48%);
+      --button-border: color-mix(in srgb, var(--color-danger) 84%, var(--color-text) 16%);
+      --button-hover-background: color-mix(in srgb, var(--color-danger) 68%, var(--color-surface) 32%);
+      --button-hover-border: color-mix(in srgb, var(--color-danger) 92%, var(--color-text) 8%);
+    }
+  }
+
+  :where(button, input:not([type="checkbox"]):not([type="radio"]), select, textarea):is(:focus, :focus-visible) {
+    position: relative;
+    z-index: var(--z-index-focus);
+    border-color: var(--color-focus);
+    outline-color: var(--color-focus);
+    box-shadow: var(--control-shadow);
+  }
+
+  :where(input[type="checkbox"], input[type="radio"]):is(:focus, :focus-visible) {
+    outline: var(--outline-width) solid var(--color-focus);
+    outline-offset: var(--outline-offset);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-muted);
+  }
+
+  option {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  input[type="checkbox"] {
+    inline-size: var(--checkbox-size);
+    block-size: var(--checkbox-size);
+    min-block-size: 0;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--radius-checkbox);
+    accent-color: var(--color-accent-strong);
+  }
+
+  input[type="date"] {
+    color-scheme: inherit;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  :where(menu, ul, ol)[data-list-reset] {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :where([data-layout="pair-grid"], [data-layout="action-grid"]) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+
+    > * {
+      flex: 1 1 calc(50% - var(--space-3) / 2);
+      min-inline-size: 0;
+    }
+  }
+
+  :where(label[data-field]) {
+    align-self: stretch;
+  }
+
+  [data-control-group="checkline"] {
+    --control-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
+    gap: var(--space-2);
+    min-block-size: calc(var(--control-height) - var(--space-1));
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width-1) solid var(--color-border-strong);
+    border-radius: var(--radius-control);
+    outline: var(--outline-width) solid transparent;
+    outline-offset: var(--outline-offset);
+    background: var(--color-surface-raised);
+    box-shadow: var(--control-shadow);
+    cursor: pointer;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease,
+      outline-color 160ms ease;
+
+    > span {
+      min-block-size: 0;
+      min-inline-size: 0;
+      color: var(--color-muted);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: var(--tracking-base);
+      text-transform: none;
+    }
+  }
+
+  [data-control-group="checkline"]:has(> input:is(:focus, :focus-visible)) {
+    position: relative;
+    z-index: var(--z-index-focus);
+    border-color: var(--color-focus);
+    outline-color: var(--color-focus);
+    box-shadow: var(--control-shadow);
+  }
+
+  [data-density="compact"] {
+    --control-shadow: none;
+    display: inline-flex;
+    justify-content: flex-start;
+    padding: var(--space-1) 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}

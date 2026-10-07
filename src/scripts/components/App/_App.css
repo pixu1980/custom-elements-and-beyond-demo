@@ -1,0 +1,75 @@
+/**
+ * Application shell layout: the responsive grid hosting the header, the
+ * workspace column and the side panels.
+ */
+@layer components.app {
+  [data-app-root="true"] {
+    display: grid;
+    gap: var(--space-6);
+    max-inline-size: initial;
+    margin-inline: auto;
+    grid-template-columns: minmax(20rem, 25rem) minmax(0, 1fr) minmax(20rem, 25rem);
+
+    /* The header host is `display: contents`, so the inner <header> is the
+       grid item; a descendant selector reaches it across the host. */
+    [data-component="header"] {
+      grid-column: 1 / -1;
+    }
+
+    > [data-component="app-shell"] {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      min-block-size: 0;
+      min-inline-size: 0;
+      align-self: start;
+    }
+
+    > [data-slot="controls"] {
+      grid-area: 2 / 1;
+      display: flex;
+      flex-flow: column;
+    }
+
+    > [data-slot="debug-sidebar"] {
+      grid-column: 3;
+      grid-row: 2;
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      min-block-size: 0;
+      max-block-size: var(--app-main-block-size, none);
+      overflow: hidden;
+    }
+
+    > :where([data-slot="controls"], [data-slot="debug-sidebar"]) {
+      gap: var(--space-5);
+      min-block-size: 0;
+      min-inline-size: 0;
+    }
+  }
+
+  /* Single column below 1180px */
+  @media (max-width: 1180px) {
+    [data-app-root="true"] {
+      grid-template-columns: 1fr;
+
+      > [data-component="app-shell"],
+      > [data-slot="controls"],
+      > [data-slot="debug-sidebar"] {
+        grid-column: 1;
+      }
+
+      > [data-slot="controls"] {
+        grid-row: auto;
+      }
+
+      > [data-slot="debug-sidebar"] {
+        grid-row: auto;
+        order: 3;
+        max-block-size: var(--app-main-block-size, none);
+      }
+    }
+  }
+}

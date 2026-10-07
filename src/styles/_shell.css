@@ -1,0 +1,56 @@
+/**
+ * Surface and panel shells: cards, panel padding and the panel heading marker.
+ */
+@layer surfaces;
+
+@layer surfaces {
+  /* Custom element hosts are layout transparent: the inner semantic element
+     participates in the parent layout instead of the host box. */
+  :where(ceb-header, ceb-stats-row, ceb-filters, ceb-bulk-actions, ceb-todo-list, ceb-todo-item, ceb-debug-panel, ceb-debug-log-entry) {
+    display: contents;
+  }
+
+  [data-surface="card"] {
+    z-index: var(--z-index-base);
+    border: var(--border-width-1) solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-medium);
+    width: 100%;
+    min-block-size: 0;
+    display: flex;
+    position: relative;
+  }
+
+  /* Panel padding and rhythm */
+  [data-panel] {
+    --panel-marker-color: var(--color-accent-strong);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  /* Panel and list headings with the accent marker */
+  :where([data-panel], [data-component="todo-list"] [data-slot="header"]) {
+    margin: 0;
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin: 0;
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+
+      &::before {
+        content: "";
+        inline-size: 1rem;
+        block-size: 1rem;
+        border-radius: var(--radius-checkbox);
+        background: var(--panel-marker-color);
+        flex: none;
+      }
+    }
+  }
+}

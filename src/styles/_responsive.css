@@ -1,0 +1,14 @@
+/**
+ * Responsive layer: mobile paddings and single column pair grids.
+ */
+@layer mobile {
+  @media (max-width: 780px) {
+    body {
+      padding: var(--space-4);
+    }
+
+    :where([data-layout="pair-grid"], [data-layout="action-grid"]) > * {
+      flex-basis: 100%;
+    }
+  }
+}
